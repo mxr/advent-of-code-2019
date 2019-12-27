@@ -14,12 +14,7 @@ from dataclasses import dataclass
 Step = NamedTuple("Step", (("direction", str), ("amount", int)))
 Bounds = NamedTuple(
     "Bounds",
-    (
-        ("min_width", int),
-        ("min_height", int,),
-        ("max_width", int),
-        ("max_height", int,),
-    ),
+    (("min_width", int), ("min_height", int), ("max_width", int), ("max_height", int)),
 )
 
 
@@ -27,6 +22,8 @@ Bounds = NamedTuple(
 class Cell:
     wire1: bool
     wire2: bool
+    count_wire1: int
+    count_wire2: int
 
 
 def parse_path(raw_path: str) -> List[Step]:
@@ -96,43 +93,55 @@ def _lay_path(
     origin_x: int,
     origin_y: int,
     path: Iterable[Step],
-    which: Callable[[List[List[Optional[Cell]]], int, int], None],
+    which: Callable[[List[List[Optional[Cell]]], int, int, int], None],
 ) -> None:
     x, y = origin_x, origin_y
+    count = 0
     for s in path:
         if s.direction == "R":
             for i in range(1, s.amount + 1):
-                which(grid, x + i, y)
+                count += 1
+                which(grid, x + i, y, count)
             x += s.amount
 
         elif s.direction == "L":
             for i in range(1, s.amount + 1):
-                which(grid, x - i, y)
+                count += 1
+                which(grid, x - i, y, count)
             x -= s.amount
 
         elif s.direction == "U":
             for i in range(1, s.amount + 1):
-                which(grid, x, y + i)
+                count += 1
+                which(grid, x, y + i, count)
             y += s.amount
 
         elif s.direction == "D":
             for i in range(1, s.amount + 1):
-                which(grid, x, y - i)
+                count += 1
+                which(grid, x, y - i, count)
             y -= s.amount
 
 
-def _place_wire_path1(grid: List[List[Optional[Cell]]], x: int, y: int) -> None:
+def _place_wire_path1(
+    grid: List[List[Optional[Cell]]], x: int, y: int, count: int
+) -> None:
     cell = grid[y][x]
     if cell is None:
-        grid[y][x] = Cell(True, False)
+        grid[y][x] = Cell(True, False, count, 0)
 
 
-def _place_wire_path2(grid: List[List[Optional[Cell]]], x: int, y: int) -> None:
+def _place_wire_path2(
+    grid: List[List[Optional[Cell]]], x: int, y: int, count: int
+) -> None:
     cell = grid[y][x]
     if cell is None:
-        grid[y][x] = Cell(False, True)
+        grid[y][x] = Cell(False, True, 0, count)
     else:
         cell.wire2 = True
+        cell.count_wire2 = (
+            count if cell.count_wire2 == 0 else min(cell.count_wire2, count)
+        )
 
 
 def _debug() -> bool:
@@ -155,7 +164,7 @@ def main() -> int:
             print(
                 "".join(
                     "o"
-                    if y == 0 and i == 0
+                    if i == origin_x and y == origin_y
                     else "."
                     if c is None
                     else "1"
