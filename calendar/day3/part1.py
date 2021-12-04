@@ -10,9 +10,12 @@ from typing import NamedTuple
 from typing import Optional
 from typing import Tuple
 
+
 class Step(NamedTuple):
     direction: str
     amount: int
+
+
 class Bounds(NamedTuple):
     min_width: int
     min_height: int

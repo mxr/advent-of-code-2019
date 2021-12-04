@@ -6,10 +6,13 @@ from typing import Optional
 
 from part1 import read_inputs
 
+
 class OpArgs(NamedTuple):
     val1: int
     val2: int
     i: int
+
+
 class OpRet(NamedTuple):
     ret: Optional[int]
     ret_i: Optional[int]
