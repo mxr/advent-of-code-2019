@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 import fileinput
 from contextlib import closing
+from dataclasses import dataclass
 from typing import Generator
 from typing import List
 from typing import Optional
 from typing import Tuple
-
-from dataclasses import dataclass
 
 
 @dataclass
