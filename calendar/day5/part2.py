@@ -6,10 +6,17 @@ from typing import Optional
 
 from part1 import read_inputs
 
-OpArgs = NamedTuple("OpArgs", (("val1", int), ("val2", int), ("i", int)))
-OpRet = NamedTuple(
-    "OpRet", (("ret", Optional[int]), ("ret_i", Optional[int]), ("new_i", int))
-)
+
+class OpArgs(NamedTuple):
+    val1: int
+    val2: int
+    i: int
+
+
+class OpRet(NamedTuple):
+    ret: Optional[int]
+    ret_i: Optional[int]
+    new_i: int
 
 
 def add(args: OpArgs) -> OpRet:

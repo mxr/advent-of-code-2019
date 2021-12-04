@@ -8,7 +8,7 @@ from part1 import parse_path
 
 
 def main() -> int:
-    path1, path2 = [parse_path(rp) for rp in fileinput.input()]
+    path1, path2 = (parse_path(rp) for rp in fileinput.input())
     grid, bounds = build_grid(path1, path2)
 
     origin_x, origin_y = abs(bounds.min_width), abs(bounds.min_height)

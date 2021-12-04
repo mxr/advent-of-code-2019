@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import fileinput
 import os
+from dataclasses import dataclass
 from distutils.util import strtobool
 from typing import Callable
 from typing import Iterable
@@ -9,13 +10,17 @@ from typing import NamedTuple
 from typing import Optional
 from typing import Tuple
 
-from dataclasses import dataclass
 
-Step = NamedTuple("Step", (("direction", str), ("amount", int)))
-Bounds = NamedTuple(
-    "Bounds",
-    (("min_width", int), ("min_height", int), ("max_width", int), ("max_height", int)),
-)
+class Step(NamedTuple):
+    direction: str
+    amount: int
+
+
+class Bounds(NamedTuple):
+    min_width: int
+    min_height: int
+    max_width: int
+    max_height: int
 
 
 @dataclass
@@ -149,7 +154,7 @@ def _debug() -> bool:
 
 
 def main() -> int:
-    path1, path2 = [parse_path(rp) for rp in fileinput.input()]
+    path1, path2 = (parse_path(rp) for rp in fileinput.input())
     grid, bounds = build_grid(path1, path2)
 
     origin_x, origin_y = abs(bounds.min_width), abs(bounds.min_height)
