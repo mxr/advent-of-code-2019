@@ -153,7 +153,7 @@ def _place_wire_path2(
 
 
 def _debug() -> bool:
-    return strtobool(os.getenv("DEBUG", "false"))
+    return os.getenv("DEBUG", "false").lower() == "true"
 
 
 def main() -> int:
