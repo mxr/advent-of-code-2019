@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import fileinput
+from collections.abc import Generator
 from contextlib import closing
 from dataclasses import dataclass
-from typing import Generator
-from typing import List
-from typing import Optional
-from typing import Tuple
 
 
 @dataclass
 class Primary:
     name: str
-    satellites: List["Primary"]
+    satellites: list[Primary]
     depth: int = 0
 
     def __hash__(self) -> int:
         return hash(self.name)
 
 
-def read_inputs() -> Tuple[Tuple[str, str], ...]:
-    def _read() -> Generator[Tuple[str, str], None, None]:
+def read_inputs() -> tuple[tuple[str, str], ...]:
+    def _read() -> Generator[tuple[str, str], None, None]:
         with closing(fileinput.input()) as f:
             for line in f:
                 primary, _, satellite = line.strip().partition(")")
@@ -28,7 +27,7 @@ def read_inputs() -> Tuple[Tuple[str, str], ...]:
     return tuple(_read())
 
 
-def build_orbits(inputs: Tuple[Tuple[str, str], ...]) -> Primary:
+def build_orbits(inputs: tuple[tuple[str, str], ...]) -> Primary:
     assert inputs
 
     root = Primary(inputs[0][0], [Primary(inputs[0][1], [])])
@@ -52,7 +51,7 @@ def build_orbits(inputs: Tuple[Tuple[str, str], ...]) -> Primary:
     return root
 
 
-def _find_leaf(root: Primary, name: str) -> Optional[Primary]:
+def _find_leaf(root: Primary, name: str) -> Primary | None:
     if root.name == name:
         return root
 

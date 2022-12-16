@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import fileinput
-from typing import List
 from typing import NamedTuple
-from typing import Optional
 
 from part1 import read_inputs
 
@@ -14,8 +14,8 @@ class OpArgs(NamedTuple):
 
 
 class OpRet(NamedTuple):
-    ret: Optional[int]
-    ret_i: Optional[int]
+    ret: int | None
+    ret_i: int | None
     new_i: int
 
 
@@ -64,7 +64,7 @@ OP_TO_FUNC = {
 }
 
 
-def run_until_termination(inputs: List[int]) -> int:
+def run_until_termination(inputs: list[int]) -> int:
     i = 0
     while inputs[i] != 99:
         padded = str(inputs[i]).zfill(5)
@@ -87,7 +87,7 @@ def run_until_termination(inputs: List[int]) -> int:
     return inputs[0]
 
 
-def _maybe_value(inputs: List[int], i: int, mode: str) -> int:
+def _maybe_value(inputs: list[int], i: int, mode: str) -> int:
     try:
         return inputs[inputs[i]] if mode == "0" else inputs[i]
     except IndexError:

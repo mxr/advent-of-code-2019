@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import fileinput
 import os
+from collections.abc import Callable
+from collections.abc import Iterable
 from dataclasses import dataclass
-from distutils.util import strtobool
-from typing import Callable
-from typing import Iterable
-from typing import List
 from typing import NamedTuple
-from typing import Optional
-from typing import Tuple
 
 
 class Step(NamedTuple):
@@ -31,13 +29,13 @@ class Cell:
     count_wire2: int
 
 
-def parse_path(raw_path: str) -> List[Step]:
+def parse_path(raw_path: str) -> list[Step]:
     return [Step(s[0], int(s[1:])) for s in raw_path.split(",")]
 
 
 def build_grid(
     path1: Iterable[Step], path2: Iterable[Step]
-) -> Tuple[List[List[Optional[Cell]]], Bounds]:
+) -> tuple[list[list[Cell | None]], Bounds]:
     b1 = count_bounds(path1)
     b2 = count_bounds(path2)
 
@@ -47,7 +45,7 @@ def build_grid(
         max_width=max(b1.max_width, b2.max_width),
         max_height=max(b1.max_height, b2.max_height),
     )
-    grid: List[List[Optional[Cell]]] = []
+    grid: list[list[Cell | None]] = []
     for _ in range(bounds.max_height - bounds.min_height + 1):
         grid.append([None for _ in range(bounds.max_width - bounds.min_width + 1)])
 
@@ -82,23 +80,23 @@ def count_bounds(path: Iterable[Step]) -> Bounds:
 
 
 def lay_path1(
-    grid: List[List[Optional[Cell]]], origin_x: int, origin_y: int, path: Iterable[Step]
+    grid: list[list[Cell | None]], origin_x: int, origin_y: int, path: Iterable[Step]
 ) -> None:
     _lay_path(grid, origin_x, origin_y, path, _place_wire_path1)
 
 
 def lay_path2(
-    grid: List[List[Optional[Cell]]], origin_x: int, origin_y: int, path: Iterable[Step]
+    grid: list[list[Cell | None]], origin_x: int, origin_y: int, path: Iterable[Step]
 ) -> None:
     _lay_path(grid, origin_x, origin_y, path, _place_wire_path2)
 
 
 def _lay_path(
-    grid: List[List[Optional[Cell]]],
+    grid: list[list[Cell | None]],
     origin_x: int,
     origin_y: int,
     path: Iterable[Step],
-    which: Callable[[List[List[Optional[Cell]]], int, int, int], None],
+    which: Callable[[list[list[Cell | None]], int, int, int], None],
 ) -> None:
     x, y = origin_x, origin_y
     count = 0
@@ -129,7 +127,7 @@ def _lay_path(
 
 
 def _place_wire_path1(
-    grid: List[List[Optional[Cell]]], x: int, y: int, count: int
+    grid: list[list[Cell | None]], x: int, y: int, count: int
 ) -> None:
     cell = grid[y][x]
     if cell is None:
@@ -137,7 +135,7 @@ def _place_wire_path1(
 
 
 def _place_wire_path2(
-    grid: List[List[Optional[Cell]]], x: int, y: int, count: int
+    grid: list[list[Cell | None]], x: int, y: int, count: int
 ) -> None:
     cell = grid[y][x]
     if cell is None:
@@ -150,7 +148,7 @@ def _place_wire_path2(
 
 
 def _debug() -> bool:
-    return strtobool(os.getenv("DEBUG", "false"))
+    return os.getenv("DEBUG", "false").lower() == "true"
 
 
 def main() -> int:
