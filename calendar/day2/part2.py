@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 from part1 import override_inputs
 from part1 import read_inputs
 from part1 import run_until_termination

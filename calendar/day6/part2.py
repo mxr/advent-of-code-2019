@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import itertools
 from typing import List
 from typing import Tuple
@@ -27,7 +29,7 @@ def overlap_distance(root: Primary, name1: str, name2: str) -> int:
     return dist_from_common_to_name1 + dist_from_common_to_name2 - 2
 
 
-def _paths(root: Primary) -> List[Tuple[str, ...]]:
+def _paths(root: Primary) -> list[tuple[str, ...]]:
     return (
         [
             tuple(itertools.chain((root.name,), p))

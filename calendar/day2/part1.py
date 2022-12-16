@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import fileinput
 import itertools
 from operator import add
@@ -9,16 +11,16 @@ from typing import Tuple
 CHUNK_SIZE = 4
 
 
-def read_inputs() -> Tuple[int, ...]:
+def read_inputs() -> tuple[int, ...]:
     line = next(fileinput.input())
     return tuple(int(x) for x in line.split(","))
 
 
-def override_inputs(inputs: Tuple[int, ...], at1: int, at2: int) -> List[int]:
+def override_inputs(inputs: tuple[int, ...], at1: int, at2: int) -> list[int]:
     return list(itertools.chain((inputs[0],), (at1, at2), inputs[3:]))
 
 
-def run_until_termination(inputs: List[int]) -> int:
+def run_until_termination(inputs: list[int]) -> int:
     for i in range(0, len(inputs), CHUNK_SIZE):
         op, i1, i2, out, *_ = inputs[i : i + CHUNK_SIZE]
         if op == 99:

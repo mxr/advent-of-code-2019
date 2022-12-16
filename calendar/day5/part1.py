@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import fileinput
 from contextlib import closing
 from typing import List
 from typing import Tuple
 
 
-def read_inputs() -> Tuple[int, ...]:
+def read_inputs() -> tuple[int, ...]:
     with closing(fileinput.input()) as f:
         return tuple(int(x) for x in f.readline().split(","))
 
 
-def run_until_termination(inputs: List[int]) -> int:
+def run_until_termination(inputs: list[int]) -> int:
     i = 0
     while True:
         op = int(str(inputs[i])[-2:])
@@ -37,7 +39,7 @@ def run_until_termination(inputs: List[int]) -> int:
             return inputs[0]
 
 
-def _value(inputs: List[int], i: int, mode: str) -> int:
+def _value(inputs: list[int], i: int, mode: str) -> int:
     return inputs[inputs[i]] if mode == "0" else inputs[i]
 
 
