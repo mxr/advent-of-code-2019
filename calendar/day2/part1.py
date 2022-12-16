@@ -5,8 +5,6 @@ import fileinput
 import itertools
 from operator import add
 from operator import mul
-from typing import List
-from typing import Tuple
 
 CHUNK_SIZE = 4
 

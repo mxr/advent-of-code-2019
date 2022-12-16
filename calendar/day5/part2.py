@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 import fileinput
-from typing import List
 from typing import NamedTuple
-from typing import Optional
 
 from part1 import read_inputs
 

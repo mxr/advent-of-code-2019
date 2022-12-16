@@ -5,9 +5,6 @@ import fileinput
 from collections.abc import Generator
 from contextlib import closing
 from dataclasses import dataclass
-from typing import List
-from typing import Optional
-from typing import Tuple
 
 
 @dataclass

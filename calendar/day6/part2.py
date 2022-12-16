@@ -2,8 +2,6 @@
 from __future__ import annotations
 
 import itertools
-from typing import List
-from typing import Tuple
 
 from part1 import build_orbits
 from part1 import Primary
@@ -16,7 +14,7 @@ def overlap_distance(root: Primary, name1: str, name2: str) -> int:
     path1 = [p for p in paths if p[-1] == name1][0]
     path2 = [p for p in paths if p[-1] == name2][0]
 
-    common_i = next(i for i, (p1,p2) in enumerate(zip(path1, path2)) if p1 != p2)
+    common_i = next(i for i, (p1, p2) in enumerate(zip(path1, path2)) if p1 != p2)
 
     dist_from_common_to_name1 = len(path1) - common_i
     dist_from_common_to_name2 = len(path2) - common_i

@@ -3,8 +3,6 @@ from __future__ import annotations
 
 import fileinput
 from contextlib import closing
-from typing import List
-from typing import Tuple
 
 
 def read_inputs() -> tuple[int, ...]:
