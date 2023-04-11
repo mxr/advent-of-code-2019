@@ -35,7 +35,7 @@ def build_orbits(inputs: tuple[tuple[str, str], ...]) -> Primary:
     to_process = set(inputs[1:])
     while to_process:
         to_delete = set()
-        for (name, sat_name) in to_process:
+        for name, sat_name in to_process:
             if sat_name == root.name:
                 root = Primary(name, [root])
                 to_delete.add((name, sat_name))
